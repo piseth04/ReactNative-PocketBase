@@ -1,14 +1,39 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Alert} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react';
+import { useRouter } from 'expo-router'
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-
+import pb from '../utils/pb'
 
 const index = () => {
+  const router = useRouter()
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          onPress: () => {
+            pb.authStore.clear()
+            router.replace('/login')
+          },
+          style: 'destructive',
+        },
+      ]
+    )
+  }
+
   return (
-	<View style={styles.container}>
+	<SafeAreaView style={styles.container}>
 	 	<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 			{/* Header */}
 			<View style={{backgroundColor: '#ffffff', padding: 20, marginTop: 2, flexDirection: 'column'}}>
@@ -19,11 +44,14 @@ const index = () => {
 					<View style={{ flexDirection: 'row', alignItems: 'center', gap: 16}}>
 						<Feather name="search" size={24} color="black"  />
 						<Ionicons name="notifications-outline" size={24} color="black" />
+						<TouchableOpacity onPress={handleLogout}>
+							<AntDesign name="logout" size={24} color="black" />
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>	
 			{/* Top View */}
-			<View style={{backgroundColor: '#ffffff',marginTop: 2, padding: 20}}>
+			<View style={{backgroundColor: '#ffffff',marginTop: 2, padding: 20,}}>
 				<Text style= {{fontSize: 25, fontWeight: 'bold'}}>Welcome Back</Text>
 				<Text style= {{fontSize: 16, marginTop: 4 }}>We're glad to see you again!</Text>
 			</View>
@@ -66,7 +94,7 @@ const index = () => {
 
 	 	</ScrollView>
 	 <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-	</View>
+	</SafeAreaView>
   )
 }
 
