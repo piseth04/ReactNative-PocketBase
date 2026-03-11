@@ -5,3 +5,4 @@ pb_data/
 # Windows executable — large binary, not needed in source control.
 # Download your own from https://pocketbase.io/docs/
 pocketbase.exe
+pb_migrations/
